@@ -1,0 +1,33 @@
+
+
+</script>
+
+<div class="row">
+  <p>
+    <%= geturl()%>
+  </p>
+<%
+ count=0
+ companies = getlist(geturl)%>
+<ul class="list-group">
+  <% companies.each do |item| %>
+  <% if (item.gettype=="file")
+  	file = File.open("r"+count.to_s+".html", "w")
+  	web_contents  = open(item.getdurl) {|f| f.read }
+  	web_contents = markdown(web_contents)
+  	file.puts(web_contents)
+  	file.close()
+  	%>
+<li class="list-group-item"><strong><button onclick="avp(this)" id = <%=count.to_s%>><%= item.getname() %></button></strong></li>
+    <%else%>
+    <li class="list-group-item"><strong><%= item.getname() %></strong></li>
+    <%
+    count=count+1
+    end%>
+    
+  <% end %>
+</ul>
+
+<p id ="text"></p>
+
+</div>
